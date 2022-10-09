@@ -1,11 +1,35 @@
-import React from "react"
+import React,{Component} from "react"
 import { Link } from "gatsby";
 import { Banner,TextWrapper,MoreText,Mission, SectionThree, FlexBoxIndex, GenericPara, GenericH2,FormFive,
 } from "../styles/IndexStyles";
 import Layout from "../components/layout";
+import {navigate} from 'gatsby-link';
 
-export default function Home(){
- return(
+const encode=(data)=>{
+	return Object.kyes(data)
+	.map(key =>encodeURIComponent(key)+"="+encodeURIComponent(data[
+	key])).join('&');
+	}
+class IndexedPage  extends Component{
+	constructor(props){
+		super(props);
+		this.state={name:"",email:"",message:""};
+		}
+	handleSubmit =e=>{
+		e.preventDefault();
+		const form=e.target
+		fetch("/",{
+			method:"POST",
+			header:{"Content-Type":"application/x-www-form-urlencode"},
+			body:encode({'form-name':form.getAttribute('name'),...this.state})
+		})
+	.then(()=>navigate(form.getAttribute('actions')))
+	.catch(error=>alert(error))
+	};
+	handleChange =e=>this.setState({[e.target.name]:e.target.value});
+ render(){
+	 const{name,email,message}=this.state;
+return(
   <Layout>
 <section style={{position:'relative'}}>
     <Banner></Banner>
@@ -115,12 +139,12 @@ export default function Home(){
   <section style={{ position: "relative" }}>
     <Banner parallax></Banner>
     <FormFive>
-      <form name="contact" method="post" data-netlify="true">
+      <form name="contact" method="post" data-netlify="true" onSubmit={this.onSubmit} action="thanks/">
       <div className="fields">
         <GenericH2 none>Contact Us</GenericH2>
-        <input type="text" name="name" id="name" placeholder="Name" />
-        <input type="email" name="email" id="email" placeholder="Email" />
-        <textarea name="message" id="message" placeholder="Message" rows="7">
+        <input type="text" name="name" id="name" placeholder="Name" onChange={this.handleChange} value={name} />
+        <input type="email" name="email" id="email" placeholder="Email" onChange={this.handleChange} value={email} />
+        <textarea name="message" id="message" placeholder="Message" rows="7" value={message} onChange={this.handleChange}>
         </textarea>
         <div className="actions">
         <input type="submit" value="Send Message" className="button__primary" />
@@ -130,5 +154,7 @@ export default function Home(){
 	</FormFive>
   </section>
   </Layout>
- ) 
+ )
 }
+}
+export default IndexedPage;

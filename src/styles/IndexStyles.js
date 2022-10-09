@@ -280,6 +280,27 @@ left:0;
  letter-spacing: 0.6rem;
  margin: 0;
  `
+const GenereicParaAbout = styled.p`
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: ${props => (props.lessSpacing ? "0.075em" : "0.225em")};
+  font-size: ${props => (props.lessSize ? "1.5rem" : "2.5rem")};
+  line-height: ${props => (props.lessSize ? "2rem" : "3rem")};
+  color: ${props => (props.grey ? "#4E4852" : "#ffffff")};
+`
 
-
-export{Banner,TextWrapper,MoreText,Mission,SectionThree,FlexBoxIndex,GenericPara,GenericH2,FormFive,Footer,Header,Works,GenericH3}
+export{
+	Banner,
+	TextWrapper,
+	MoreText,
+	Mission,
+	SectionThree,
+	FlexBoxIndex,
+	GenericPara,
+	GenericH2,
+	FormFive,
+	Footer,
+	Header,
+	Works,
+	GenericH3,
+	GenereicParaAbout}
